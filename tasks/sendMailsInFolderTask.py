@@ -6,19 +6,20 @@ from util import mailBuilder
 from util import smtpUtil
 import ConfigParser
 
-class SendFirstMailTask(AbstractTask):
+class SendMailsInFolderTask(AbstractTask):
     def __init__(self):
-        super(SendFirstMailTask, self).__init__()
+        super(SendMailsInFolderTask, self).__init__()
         self.initConfig()
 
     def initConfig(self):
         config = ConfigParser.RawConfigParser()
         config.readfp(open(r'conf/config.ini'))
-        self.body = config.get('first-mail-conf', 'body')
-        self.subject = config.get('first-mail-conf', 'subject')
+        self.folderExtractedInto = config.get('extractor-conf', 'outputDirectory')
 
     def check(self):
         return False
 
     def act(self):
-        smtpUtil.sendMail(mailBuilder.createMessage(self.subject, self.body))
+        for idMsg in range(mailBuilder.getNumberOfMails(self.folderExtractedInto)):
+            msg = mailBuilder.buildMailFromFolder(idMsg + 1, self.folderExtractedInto)
+            smtpUtil.sendMail(msg)
