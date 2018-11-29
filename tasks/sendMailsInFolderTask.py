@@ -17,7 +17,7 @@ class SendMailsInFolderTask(AbstractTask):
         self.folderExtractedInto = config.get('extractor-conf', 'outputDirectory')
 
     def check(self):
-        return False
+        return True
 
     def act(self):
         for idMsg in range(mailBuilder.getNumberOfMails(self.folderExtractedInto)):

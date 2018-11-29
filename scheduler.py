@@ -6,11 +6,14 @@ from tasks.sendMailsInFolderTask import SendMailsInFolderTask
 
 def main():
     scheduledTasks = [SendFirstMailTask(), SendMailsInFolderTask()]
-    # TODO : while True
-    for x in range(10):
-        for schd in scheduledTasks:
-            schd.resolve()
+    tasksCount = 0
+    tasksTotal = len(scheduledTasks)
+    while tasksCount != tasksTotal:
+        for tsk in scheduledTasks:
+            if(tsk.resolve() == True):
+                tasksCount += 1
         sleep(0.5)
+    print 'All tasks are done !'
 
 if __name__ == "__main__":
     try:

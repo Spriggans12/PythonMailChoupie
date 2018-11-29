@@ -5,10 +5,12 @@ class AbstractTask(object):
 
     def resolve(self):
         if self.done:
-            return
+            return False
         if self.check() == True:
             self.act()
             self.done = True
+            return True
+        return False
 
     def check(self):
         raise NotImplementedError("Please Implement this method")
